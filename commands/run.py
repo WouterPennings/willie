@@ -31,7 +31,7 @@ async def SendLoopResult(context, stdout, stderr):
 async def Run(context, code):
     WriteLoop('loop.loop', code)
 
-    process = subprocess.Popen(['loop.exe', 'loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['loop.exe', 'execute/loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     await context.send("Willie will execute you code!")
     try:
         stdout, stderr = process.communicate(timeout=1)
