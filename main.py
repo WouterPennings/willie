@@ -2,13 +2,14 @@ import os
 from discord.ext import commands
 from dotenv import load_dotenv
 import subprocess
-import datetime
 
 PREFIX = '!'
 ENCODER = 'utf-8'
 bot = commands.Bot(command_prefix=PREFIX)
 
 def WriteLoop(filename, code):
+    if not os.path.isfile(filename):
+        open(filename, "x")
     file = open(filename, 'w')
     file.write(code)
     file.close()
@@ -33,7 +34,6 @@ async def SendLoopResult(context, stdout, stderr):
 @bot.event
 async def on_ready():
     print(f'{bot.user} succesfully logged in!')
-    await bot.send_message(commands.Server.default_channel, "Hello everyone")
 
 @bot.command()
 async def run(context, *, code):
