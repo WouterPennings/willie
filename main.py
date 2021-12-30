@@ -52,6 +52,10 @@ async def run(context, *, code):
     print("Succesfully executed Loop code")
 
 @bot.command()
+async def source(context):
+    await context.send("Source code of Willie: https://github.com/WouterPennings/willie")
+
+@bot.command()
 async def Willie(context):
     await context.send("Wonka")
 
