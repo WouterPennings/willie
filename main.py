@@ -36,7 +36,7 @@ async def on_ready():
     print(f'{bot.user} succesfully logged in!')
 
 @bot.command()
-async def run(context, *, code):
+async def Run(context, *, code):
     WriteLoop('loop.loop', code)
 
     process = subprocess.Popen(['loop.exe', 'loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -52,7 +52,11 @@ async def run(context, *, code):
     print("Succesfully executed Loop code")
 
 @bot.command()
-async def source(context):
+async def Help(context):
+    await context.send("Soldier Willie has two commands to perform:\n > !Source -> Returns the url of the source code of Willie\n > !Run <LOOP CODE> -> Compiles and runs Loop code. You can play with Loop.")
+
+@bot.command()
+async def Source(context):
     await context.send("Source code of Willie: https://github.com/WouterPennings/willie")
 
 @bot.command()
