@@ -1,0 +1,2 @@
+async def WHelp(context):
+    await context.send("Soldier Willie has two commands to perform:\n > !Source -> Returns the url of the source code of Willie\n > !Run <LOOP CODE> -> Compiles and runs Loop code. You can play with Loop.")

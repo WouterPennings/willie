@@ -1,35 +1,15 @@
-import os
+# Imported projects
 from discord.ext import commands
 from dotenv import load_dotenv
-import subprocess
+
+# Custom Files
+import commands.source as source
+import commands.willie as willie
+import commands.help as whelp
+import commands.run as run
 
 PREFIX = '!'
-ENCODER = 'utf-8'
 bot = commands.Bot(command_prefix=PREFIX)
-
-def WriteLoop(filename, code):
-    if not os.path.isfile(filename):
-        open(filename, "x")
-    file = open(filename, 'w')
-    file.write(code)
-    file.close()
-
-# Messages that are too long are not allowed by the discord API
-def ReadyResponseLoop(err):
-    err = err.decode(ENCODER)
-    if len(err) > 100:
-        return err[0:100]
-    return err
-
-async def SendLoopResult(context, stdout, stderr):
-    output = ReadyResponseLoop(stdout)
-    error = ReadyResponseLoop(stderr)
-    if stderr and stdout:
-        await context.send("```Result from execution:\n\n{}\n{}```".format(error, output))
-    elif stderr:
-        await context.send("```Result from execution:\n\n{}```".format(error)) 
-    else:
-        await context.send("```Result from execution:\n\n{}```".format(output))
 
 @bot.event
 async def on_ready():
@@ -37,33 +17,20 @@ async def on_ready():
 
 @bot.command()
 async def Run(context, *, code):
-    WriteLoop('loop.loop', code)
-
-    process = subprocess.Popen(['loop.exe', 'loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    await context.send("Willie will execute you code!")
-    try:
-        stdout, stderr = process.communicate(timeout=1)
-        await SendLoopResult(context, stdout, stderr)
-    except subprocess.TimeoutExpired:
-        process.kill()
-        stdout, stderr = process.communicate()
-        await SendLoopResult(context, stdout, stderr)
-    
-    print("Succesfully executed Loop code")
+    await run.Run(context, code)
 
 @bot.command()
 async def Help(context):
-    await context.send("Soldier Willie has two commands to perform:\n > !Source -> Returns the url of the source code of Willie\n > !Run <LOOP CODE> -> Compiles and runs Loop code. You can play with Loop.")
+    await whelp.WHelp(context)
 
 @bot.command()
 async def Source(context):
-    await context.send("Source code of Willie: https://github.com/WouterPennings/willie")
+    await source.Source(context)
 
 @bot.command()
 async def Willie(context):
-    await context.send("Wonka")
+    await willie.Willie(context)
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 bot.run(TOKEN)
-
