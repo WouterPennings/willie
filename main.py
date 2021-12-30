@@ -1,6 +1,10 @@
+import os
 from discord.ext import commands
+from dotenv import load_dotenv
 import subprocess
-TOKEN = "OTE1NzExMzk3MDQ2OTE1MDky.Yafksg.3LCmY8U935h7zezrItfYI56sOQw"
+
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
 
 # Initialize Bot and Denote The Command Prefix
 PREFIX = '!'
