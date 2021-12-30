@@ -11,12 +11,12 @@ bot = commands.Bot(command_prefix=PREFIX)
 async def on_ready():
     print(f'{bot.user} succesfully logged in!')
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user: 
-        return
-    elif message.content[0] == PREFIX:
-        await message.channel.send("Willie is confused, he does not know that command...")
+# @bot.event
+# async def on_message(message):
+#     if message.author == bot.user: 
+#         return
+#     elif message.content[0] == PREFIX:
+#         await message.channel.send("Willie is confused, he does not know that command...")
 
 @bot.command()
 async def run(context):
@@ -24,8 +24,13 @@ async def run(context):
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-
-    await context.send("```" + stdout.decode('ascii') + "```")
+    if stderr and stdout:
+        await context.send("```{}\n{}```".format(stderr.decode('ascii'), stdout.decode('ascii')))
+    elif stderr:
+        await context.send("```{}```".format(stderr.decode('ascii'))) 
+    else:
+        await context.send("```" + stdout.decode('ascii') + "```")
+   
 
 @bot.command()
 async def Willie(context):
