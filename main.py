@@ -3,41 +3,39 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import subprocess
 
-load_dotenv()
-TOKEN = os.getenv('TOKEN')
-
-# Initialize Bot and Denote The Command Prefix
 PREFIX = '!'
 bot = commands.Bot(command_prefix=PREFIX)
 
-# Runs when Bot Succesfully Connects
 @bot.event
 async def on_ready():
     print(f'{bot.user} succesfully logged in!')
 
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user: 
-#         return
-#     elif message.content[0] == PREFIX:
-#         await message.channel.send("Willie is confused, he does not know that command...")
-
 @bot.command()
-async def run(context):
+async def run(context, *, code):
+    file = open('loop.loop', 'w')
+    file.write(code)
+    file.close()
+
     process = subprocess.Popen(['loop.exe', 'loop.loop'],
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
+    print(stdout.decode('utf-8'))
+    print(stderr.decode('utf-8'))
     if stderr and stdout:
-        await context.send("```{}\n{}```".format(stderr.decode('ascii'), stdout.decode('ascii')))
+        await context.send("```\n{}\n{}```".format(stderr.decode('utf-8'), stdout.decode('utf-8')))
     elif stderr:
-        await context.send("```{}```".format(stderr.decode('ascii'))) 
+        await context.send("```\n{}```".format(stderr.decode('utf-8'))) 
     else:
-        await context.send("```" + stdout.decode('ascii') + "```")
-   
+        await context.send("```\n{}```".format(stdout.decode('utf-8')))
+
+    print(stdout.decode('utf-8'))
+    print(stderr.decode('utf-8'))
 
 @bot.command()
 async def Willie(context):
     await context.send("Wonka")
 
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
 bot.run(TOKEN)
