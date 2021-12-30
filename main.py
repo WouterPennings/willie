@@ -8,34 +8,39 @@ PREFIX = '!'
 ENCODER = 'utf-8'
 bot = commands.Bot(command_prefix=PREFIX)
 
-def GetError(err):
+def WriteLoop(filename, code):
+    file = open(filename, 'w')
+    file.write(code)
+    file.close()
+
+# Messages that are too long are not allowed by the discord API
+def ReadyResponseLoop(err):
     err = err.decode(ENCODER)
-    if len(err) > 4000:
+    if len(err) > 100:
         return err[0:100]
     return err
 
 async def SendLoopResult(context, stdout, stderr):
-    output = GetError(stdout)
-    error = GetError(stderr)
+    output = ReadyResponseLoop(stdout)
+    error = ReadyResponseLoop(stderr)
     if stderr and stdout:
-        await context.send("```\n{}\n{}```".format(error, output))
+        await context.send("```Result from execution:\n\n{}\n{}```".format(error, output))
     elif stderr:
-        await context.send("```\n{}```".format(error)) 
+        await context.send("```Result from execution:\n\n{}```".format(error)) 
     else:
-        await context.send("```\n{}```".format(output))
+        await context.send("```Result from execution:\n\n{}```".format(output))
 
 @bot.event
 async def on_ready():
     print(f'{bot.user} succesfully logged in!')
+    await bot.send_message(commands.Server.default_channel, "Hello everyone")
 
 @bot.command()
 async def run(context, *, code):
-    file = open('loop.loop', 'w')
-    file.write(code)
-    file.close()
+    WriteLoop('loop.loop', code)
 
     process = subprocess.Popen(['loop.exe', 'loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
+    await context.send("Willie will execute you code!")
     try:
         stdout, stderr = process.communicate(timeout=1)
         await SendLoopResult(context, stdout, stderr)

@@ -1,1 +1,1 @@
-for(true){println("Wouter")}
+print("hello, world")
