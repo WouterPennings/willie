@@ -13,6 +13,8 @@ Where to find Loop:
 
 ### Installed
 
+You need to have installed these things:
+
 - Python 3.x
 - Pip
 
