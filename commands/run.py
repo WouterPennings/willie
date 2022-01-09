@@ -19,7 +19,7 @@ def ReadyResponseLoop(err):
 
 async def SendLoopResult(context, stdout, stderr):
     output = ReadyResponseLoop(stdout)
-    error = ReadyResponseLoop(stderr)
+    error = stderr.decode(ENCODER)
     if stderr and stdout:
         await context.send("```Result from execution:\n\n{}\n{}```".format(error, output))
     elif stderr:
@@ -30,8 +30,8 @@ async def SendLoopResult(context, stdout, stderr):
 
 async def Run(context, code):
     WriteLoop('loop.loop', code)
-
-    process = subprocess.Popen(['loop.exe', 'execute/loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(os. getcwd())
+    process = subprocess.Popen(['loop.exe', 'loop.loop'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     await context.send("Willie will execute you code!")
     try:
         stdout, stderr = process.communicate(timeout=1)

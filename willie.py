@@ -2,6 +2,7 @@
 import os
 from discord.ext import commands
 from dotenv import load_dotenv
+import requests
 
 # Custom Files
 import commands.source as source
@@ -11,6 +12,10 @@ import commands.run as run
 
 PREFIX = '!'
 bot = commands.Bot(command_prefix=PREFIX)
+
+data = requests.get("https://cdn.looplang.org/prerelease/185_Windows_AMD64_loop_0.1.0.exe", "loop.exe")
+with open('loop.exe', 'wb') as file:
+    	file.write(data.content)
 
 @bot.event
 async def on_ready():
