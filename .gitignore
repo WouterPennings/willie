@@ -1,3 +1,4 @@
 .env
 loop.loop
 loop.exe
+__pycache__
