@@ -41,4 +41,4 @@ async def Run(context, code):
         stdout, stderr = process.communicate()
         await SendLoopResult(context, stdout, stderr)
     
-    print("Succesfully executed Loop code")
+    print("[INFO] Succesfully executed Loop code")

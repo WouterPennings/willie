@@ -2,24 +2,27 @@
 import os
 from discord.ext import commands
 from dotenv import load_dotenv
-import requests
 
-# Custom Files
+# Command Files
 import commands.source as source
 import commands.willie as willie
 import commands.help as whelp
 import commands.run as run
 
+# Logic
+import logic.compiler as compiler
+
+LOOP_COMPILER = "loop.exe"
+DOWNLOAD_URL = "https://cdn.looplang.org/prerelease/185_Windows_AMD64_loop_0.1.0.exe"
 PREFIX = '!'
 bot = commands.Bot(command_prefix=PREFIX)
 
-data = requests.get("https://cdn.looplang.org/prerelease/185_Windows_AMD64_loop_0.1.0.exe", "loop.exe")
-with open('loop.exe', 'wb') as file:
-    	file.write(data.content)
-
 @bot.event
 async def on_ready():
-    print(f'{bot.user} succesfully logged in!')
+    print(f'[INFO] {bot.user} succesfully logged in!')     
+    compiler.DownloadCompiler(DOWNLOAD_URL, LOOP_COMPILER)
+    print("[INFO] Loop compiler has been downloaded")
+    
 
 @bot.command()
 async def Run(context, *, code):
