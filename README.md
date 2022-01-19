@@ -11,6 +11,13 @@ Where to find Loop:
 
 ## How to run
 
+It has three commands for you to run:
+ - ``!Run <LOOP CODE>`` Runs your program and send results back
+ - ``!Source`` Send the link to GitHub repository
+ - ``!Help`` Sends all the commands that the bot can do
+
+## How to run Willie
+
 ### Installed
 
 You need to have installed these things:
@@ -28,6 +35,12 @@ You need to have installed these things:
 6. Run: `python3 willie.py`, in the terminal 
 
 These are all the steps to run your own Willie!
+
+## Folder Structure
+
+ - ``willie.py`` Is the entrypoint of the bot, there are all the requests it can handle
+ - ``commands/`` All the commands that Willie executes will be in there
+ - ``logic/`` Some extra functions that are needed
 
 ## Contribute
 

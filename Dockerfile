@@ -1,3 +1,6 @@
+# Do not use this. Right now it does boot, but it will not run Loop code. 
+# It does not have the rights to read files
+
 FROM python:3.9
 WORKDIR /app
 
